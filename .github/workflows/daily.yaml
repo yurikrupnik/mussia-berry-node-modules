@@ -72,14 +72,14 @@ jobs:
       #      - run: echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
 #      - run: yarn add dotenv
 #      - run: which nx
-      - run: yarn nx-cloud start-ci-run
+      - run: npx nx-cloud start-ci-run
       - run: yarn test
       - run: yarn nx run-many --target=lint --parallel --max-parallel=4 --all
       - run: yarn lint
       - run: yarn build
 #      #      - run: yarn e2e -- --skip-nx-cache --verbose
       - name: Stop agents
-        run: yarn nx-cloud stop-all-agents
+        run: npx nx-cloud stop-all-agents
         if: ${{ always() }}
 
   agents:
@@ -107,7 +107,7 @@ jobs:
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock') }}
-#      - run: yarn -v
+      - run: yarn -v
       - run: yarn install
       #      - run: npm i -g dotenv
       #       yarn cache
@@ -126,5 +126,5 @@ jobs:
       #      - run: |-
       #          gcloud --quiet auth configure-docker
       - name: Start Nx Agent ${{ matrix.agent }}
-        run: yarn nx-cloud start-agent
+        run: npx nx-cloud start-agent
 #        run: which nx
